@@ -45,6 +45,7 @@ Team Tiger
         `.trim();
 
       eyeliner = new ComSomolEyeliner();
+        //
       eyeliner.add(/^team /i, function(s, m) {
         return '<span class="csel-label">' + s + '</span>'; });
       eyeliner.add(/(\d+)/, function(s, m) {

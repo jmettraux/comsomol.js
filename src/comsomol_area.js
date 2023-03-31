@@ -15,10 +15,21 @@ class ComSomolArea extends HTMLDivElement {
 
   #highlight = function() {};
 
+  #onScroll(ev) {
+
+    this.#pre.scrollTop = this.#textarea.scrollTop;
+    this.#pre.scrollLeft = this.#textarea.scrollLeft;
+  }
+
   #onInput(ev) {
 
-    this.#code.innerHTML = this.#textarea.value;
+    var t = this.#textarea.value;
+    if (t[t.length - 1] === '\n') t = t + ' ';
+
+    this.#code.innerHTML = t;
     this.#highlight(this.#code);
+
+    this.#onScroll();
   }
 
   //
@@ -36,6 +47,7 @@ class ComSomolArea extends HTMLDivElement {
     this.#code = H.c(this.#pre, 'code');
 
     this.on(this.#textarea, 'input', this.#onInput);
+    this.on(this.#textarea, 'scroll', this.#onScroll);
   }
 
   //get klass() { return customElements.get(H.att(this, 'is')); }

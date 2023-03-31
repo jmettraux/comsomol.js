@@ -16,6 +16,11 @@
   position: absolute;
   top: 0;
   left: 0;
+
+  overflow: auto;
+  /*
+  white-space: nowrap; // no good  :-|
+  */
 }
 
 [is="comsomol-area"] * {
@@ -32,6 +37,8 @@
   color: transparent;
   background: transparent;
   caret-color: black;
+
+  resize: none;
 }
 
 [is="comsomol-area"] pre {
