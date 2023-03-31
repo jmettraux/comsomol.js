@@ -1,9 +1,9 @@
 
 # comsomol.js
 
-A set of web components.
+A set of web components. Depends on [h.js](https://github.com/jmettraux/h.js).
 
-## comsomolArea
+## ComSomolArea
 
 Inspired from https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/
 

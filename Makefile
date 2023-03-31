@@ -1,7 +1,7 @@
 
 N = comsomol
 RUBY = ruby
-VERSION != grep VERSION src/$(n).js | $(RUBY) -e "puts gets.match(/VERSION = '([\d\.]+)/)[1]"
+VERSION != grep VERSION src/$(N).js | $(RUBY) -e "puts gets.match(/VERSION = '([\d\.]+)/)[1]"
 SHA != git log -1 --format="%h"
 NOW != date
 COPY != grep Copyright LICENSE.txt
@@ -48,10 +48,13 @@ pkg: pkg_plain
 clean:
 	rm -fR pkg/
 
+concat:
+	cat src/comsomol_*.js > web/js/comsomol.js
+
 serve:
 	$(RUBY) -run -ehttpd web/ -p8001
 s: serve
 
 
-.PHONY: serve version pkg clean
+.PHONY: serve version concat pkg clean
 
