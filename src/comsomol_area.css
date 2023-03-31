@@ -36,7 +36,7 @@
   z-index: 1;
   color: transparent;
   background: transparent;
-  caret-color: black;
+  caret-color: white;
 
   resize: none;
 }
@@ -44,7 +44,11 @@
 [is="comsomol-area"] pre {
 
   z-index: 0;
+
+  color: white;
+  background-color: black;
 }
+
 
 /* light */
 
