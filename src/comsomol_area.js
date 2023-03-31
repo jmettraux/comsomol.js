@@ -1,5 +1,9 @@
 
+//
 // https://github.com/jmettraux/comsomol_area.js
+//
+// based on https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/
+//
 
 
 class ComSomolArea extends HTMLDivElement {
