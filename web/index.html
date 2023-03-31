@@ -17,6 +17,11 @@
     <script src="js/h-1.2.0.min.js"></script>
     <script src="js/comsomol.js"></script>
     <script src="js/demo.js"></script>
+
+    <style>
+      .csel-label { color: blue; }
+      .csel-string { color: red; }
+    </style>
   </head>
 
   <body>
@@ -40,14 +45,16 @@ Team Tiger
         `.trim();
 
       eyeliner = new ComSomolEyeliner();
-      eyeliner.add(/^team /i, function(s) { return 'XXX' + s; });
-      eyeliner.add(/\d+/, function(s) { return '[' + s + ']'; });
+      eyeliner.add(/^team /i, function(s, m) {
+        return '<span class="csel-label">' + s + '</span>'; });
+      eyeliner.add(/(\d+)/, function(s, m) {
+        return '<span class="csel-string">' + m[1] + '</span>'; });
 
       H.onDocumentReady(function() {
 
         var editor = H.elt('#editor0');
         editor.text = t;
-        editor.highlight = eyeliner.highlight;
+        editor.highlight = eyeliner.highlight.bind(eyeliner);
       });
     </script>
   </body>

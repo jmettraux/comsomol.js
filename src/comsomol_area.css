@@ -23,15 +23,19 @@
   font-size: 15pt;
   font-family: monospace;
   line-height: 2rem;
+  height: calc(150px + 2rem) !important; /* FIXME */
 }
 
 [is="comsomol-area"] textarea {
+
   z-index: 1;
   color: transparent;
   background: transparent;
   caret-color: black;
 }
+
 [is="comsomol-area"] pre {
+
   z-index: 0;
 }
 

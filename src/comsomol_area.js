@@ -17,7 +17,7 @@ class ComSomolArea extends HTMLDivElement {
 
   #onInput(ev) {
 
-    this.#code.innerText = this.#textarea.value;
+    this.#code.innerHTML = this.#textarea.value;
     this.#highlight(this.#code);
   }
 
@@ -48,7 +48,7 @@ class ComSomolArea extends HTMLDivElement {
 
   set highlight(f) {
 
-    this.#highlight = f.bind(this);
+    this.#highlight = f;
   }
 
   //on(event_s, callback) {
