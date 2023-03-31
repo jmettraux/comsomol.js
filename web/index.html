@@ -26,11 +26,28 @@
     </div>
 
     <script>
+
       var clog = console.log;
       var cerr = console.err;
+
+      var t = `
+Team Bear
+  indented 0
+  indented 1
+Team Tiger
+  indented 2
+  indented 3
+        `.trim();
+
+      eyeliner = new ComSomolEyeliner();
+      eyeliner.add(/^team /i, function(s) { return 'XXX' + s; });
+      eyeliner.add(/\d+/, function(s) { return '[' + s + ']'; });
+
       H.onDocumentReady(function() {
-        // TODO
-        H.elt('#editor0').text = 'This is a sample text.\nOn two lines.';
+
+        var editor = H.elt('#editor0');
+        editor.text = t;
+        editor.highlight = eyeliner.highlight;
       });
     </script>
   </body>

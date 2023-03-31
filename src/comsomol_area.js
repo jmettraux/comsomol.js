@@ -1,5 +1,5 @@
 
-// https://github.com/jmettraux/comsomol.js
+// https://github.com/jmettraux/comsomol_area.js
 
 
 class ComSomolArea extends HTMLDivElement {
@@ -18,7 +18,7 @@ class ComSomolArea extends HTMLDivElement {
   #onInput(ev) {
 
     this.#code.innerText = this.#textarea.value;
-    this.#highlight();
+    this.#highlight(this.#code);
   }
 
   //
