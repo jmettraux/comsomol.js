@@ -29,6 +29,7 @@ class ComSomolArea extends HTMLDivElement {
 
     var t = this.#textarea.value;
     if (t[t.length - 1] === '\n') t = t + ' ';
+    //t = t.replace(/&/g, '&').replace(/</g, '<');
 
     this.#code.innerHTML = t;
     this.#highlight(this.#code);

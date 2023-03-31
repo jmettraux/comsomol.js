@@ -37,7 +37,7 @@
 
       var t = `
 Team Bear
-  indented 0
+  indented 0 > xyz
   indented 1
 Team Tiger
   indented 2
@@ -50,6 +50,8 @@ Team Tiger
         return '<span class="csel-label">' + s + '</span>'; });
       eyeliner.add(/(\d+)/, function(s, m) {
         return '<span class="csel-string">' + m[1] + '</span>'; });
+      //eyeliner.add(/> (.+)/, function(s, m) {
+      //  return ']' + m[1]; });
 
       H.onDocumentReady(function() {
 
