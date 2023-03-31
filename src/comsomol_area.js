@@ -9,6 +9,18 @@ class ComSomolArea extends HTMLDivElement {
   //
   // private
 
+  #textarea;
+  #pre;
+  #code;
+
+  #highlight = function() {};
+
+  #onInput(ev) {
+
+    this.#code.innerText = this.#textarea.value;
+    this.#highlight();
+  }
+
   //
   // public
 
@@ -18,9 +30,26 @@ class ComSomolArea extends HTMLDivElement {
   }
 
   connectedCallback() {
+
+    this.#textarea = H.c(this, 'textarea', { spellcheck: 'false' });
+    this.#pre = H.c(this, 'pre');
+    this.#code = H.c(this.#pre, 'code');
+
+    this.on(this.#textarea, 'input', this.#onInput);
   }
 
-  get klass() { return customElements.get(H.att(this, 'is')); }
+  //get klass() { return customElements.get(H.att(this, 'is')); }
+
+  set text(t) {
+
+    this.#textarea.value = t;
+    this.#onInput();
+  }
+
+  set highlight(f) {
+
+    this.#highlight = f.bind(this);
+  }
 
   //on(event_s, callback) {
   //on(sel, event_s, callback) {

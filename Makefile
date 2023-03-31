@@ -50,6 +50,8 @@ clean:
 
 concat:
 	cat src/comsomol_*.js > web/js/comsomol.js
+	cat src/comsomol_*.css > web/css/comsomol.css
+c: concat
 
 serve:
 	$(RUBY) -run -ehttpd web/ -p8001

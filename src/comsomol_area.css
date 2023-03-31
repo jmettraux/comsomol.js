@@ -1,0 +1,42 @@
+
+/*
+ * comsomol_area.css
+ */
+
+/* dark (default) */
+
+[is="comsomol-area"] textarea, [is="comsomol-area"] pre {
+
+  margin: 1rem;
+  padding: 1rem;
+  border: 0;
+  width: calc(100% - 2rem);
+  height: 150px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+[is="comsomol-area"] * {
+
+  font-size: 15pt;
+  font-family: monospace;
+  line-height: 2rem;
+}
+
+[is="comsomol-area"] textarea {
+  z-index: 1;
+  color: transparent;
+  background: transparent;
+  caret-color: black;
+}
+[is="comsomol-area"] pre {
+  z-index: 0;
+}
+
+/* light */
+
+[is="comsomol-area"].light {
+}
+
