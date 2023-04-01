@@ -28,7 +28,7 @@ class ComSomolEyeliner {
     return r;
   }
 
-  #match(line, regex_or_function, opts) {
+  #doMatch(line, regex_or_function, opts) {
 
     if (typeof regex_or_function === 'function')
       return regex_or_function(line, opts);
@@ -74,8 +74,7 @@ class ComSomolEyeliner {
 
     elt.innerHTML.split('\n').forEach(function(l, i) {
       rules.forEach(function([ regex, opts, fun_or_classname ]) {
-        //var m = l.match(regex);
-        var m = t.#match(l, regex, opts);
+        var m = t.#doMatch(l, regex, opts);
         if (m) l = t.#doApply(fun_or_classname, l, i, ctx, m);
       });
       r.push(l);
