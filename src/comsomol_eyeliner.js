@@ -17,12 +17,20 @@ class ComSomolEyeliner {
       (typeof foc === 'function') ? foc(line, match, i, ctx) :
       foc;
 
-    if (match[1] === undefined) return r;
+    if (Array.isArray(r)) {
 
-    var a = line.slice(0, match.index);
-    var c = line.slice(match.index + match[1].length);
+      var a = line.slice(0, match.index);
+      var c = line.slice(match.index + match[1].length);
 
-    return [ a, r, c ].join('');
+      return [ a, r[0], c ].join('');
+    }
+
+    return r;
+  }
+
+  #match(line, regex, opts) {
+
+    return line.match(regex);
   }
 
   //
@@ -35,9 +43,22 @@ class ComSomolEyeliner {
     this.#rules = [];
   }
 
-  add(regex, function_or_classname) {
+  add(regex, /* opts,*/ function_or_classname) {
 
-    this.#rules.push([ regex, function_or_classname ]);
+    var opts;
+
+    var a1 = arguments[1];
+    var t1 = (typeof a1);
+      //
+    if (t1 === 'function' || t1 === 'string' || Array.isArray(a1)) {
+      opts = {};
+    }
+    else {
+      opts = arguments[1];
+      function_or_classname = arguments[2];
+    }
+
+    this.#rules.push([ regex, opts, function_or_classname ]);
   }
 
   highlight(elt) {
@@ -49,8 +70,9 @@ class ComSomolEyeliner {
     var ctx = {};
 
     elt.innerHTML.split('\n').forEach(function(l, i) {
-      rules.forEach(function([ regex, fun_or_classname ]) {
-        var m = l.match(regex);
+      rules.forEach(function([ regex, opts, fun_or_classname ]) {
+        //var m = l.match(regex);
+        var m = t.#match(l, regex, opts);
         if (m) l = t.#doApply(fun_or_classname, l, i, ctx, m);
       });
       r.push(l);
