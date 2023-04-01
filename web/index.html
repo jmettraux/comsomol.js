@@ -49,9 +49,9 @@ Team Tiger
       eyeliner.add(/^team /i, function(s, m) {
         return '<span class="csel-label">' + s + '</span>'; });
       eyeliner.add(/(\d+)/, function(s, m) {
-        return [ '<span class="csel-string">' + m[1] + '</span>' ] });
-      //eyeliner.add(/> (.+)/, function(s, m) {
-      //  return ']' + m[1]; });
+        return [ '<span class="csel-string">' + m[1] + '</span>' ]; });
+      //eyeliner.add(/&gt; (.+)/, function(s, m) {
+      //  return [ 'XX ]' + m[1] + '[' ]; });
         //
         // return a string, it's taken as the whole line...
         // return an array, it's taken as the fragment...

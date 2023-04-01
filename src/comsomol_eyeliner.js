@@ -28,9 +28,12 @@ class ComSomolEyeliner {
     return r;
   }
 
-  #match(line, regex, opts) {
+  #match(line, regex_or_function, opts) {
 
-    return line.match(regex);
+    if (typeof regex_or_function === 'function')
+      return regex_or_function(line, opts);
+    else
+      return line.match(regex_or_function);
   }
 
   //
@@ -43,7 +46,7 @@ class ComSomolEyeliner {
     this.#rules = [];
   }
 
-  add(regex, /* opts,*/ function_or_classname) {
+  add(regex_or_match_function, /* opts,*/ function_or_classname) {
 
     var opts;
 
@@ -58,7 +61,7 @@ class ComSomolEyeliner {
       function_or_classname = arguments[2];
     }
 
-    this.#rules.push([ regex, opts, function_or_classname ]);
+    this.#rules.push([ regex_or_match_function, opts, function_or_classname ]);
   }
 
   highlight(elt) {
