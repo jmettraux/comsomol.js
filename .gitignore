@@ -1,6 +1,9 @@
 
 .vim*
 
+tmp/
+pkg/
+
 web/js/comsomol.js
 web/css/comsomol.css
 
