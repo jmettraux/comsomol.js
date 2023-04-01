@@ -7,6 +7,10 @@ A set of web components. Depends on [h.js](https://github.com/jmettraux/h.js).
 
 Inspired from https://css-tricks.com/creating-an-editable-textarea-that-supports-syntax-highlighted-code/
 
+## ComSomolEyeliner
+
+A dumb line-only highlighter system.
+
 
 ## license
 
