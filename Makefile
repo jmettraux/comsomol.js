@@ -5,6 +5,7 @@ VERSION != grep VERSION src/$(N).js | $(RUBY) -e "puts gets.match(/VERSION = '([
 SHA != git log -1 --format="%h"
 NOW != date
 COPY != grep Copyright LICENSE.txt
+COMPACT = $(RUBY) mak/compacter.rb
 
 
 version:
@@ -33,6 +34,20 @@ pkg_plain: concat
 	echo "" >> pkg/$(N)-$(VERSION).css
 	echo "/* from commit $(SHA) on $(NOW) */" >> pkg/$(N)-$(VERSION).css
 	cp pkg/$(N)-$(VERSION).css pkg/$(N)-$(VERSION)-$(SHA).css
+	#
+	$(COMPACT) web/js/$(N).js > pkg/$(N)-$(VERSION).com.js
+	echo "/* MIT Licensed */" >> pkg/$(N)-$(VERSION).com.js
+	echo "/* $(COPY) */" >> pkg/$(N)-$(VERSION).com.js
+	echo "" >> pkg/$(N)-$(VERSION).com.js
+	echo "/* from commit $(SHA) on $(NOW) */" >> pkg/$(N)-$(VERSION).com.js
+	cp pkg/$(N)-$(VERSION).com.js pkg/$(N)-$(VERSION)-$(SHA).com.js
+	#
+	$(COMPACT) web/css/$(N).css > pkg/$(N)-$(VERSION).com.css
+	echo "/* MIT Licensed */" >> pkg/$(N)-$(VERSION).com.css
+	echo "/* $(COPY) */" >> pkg/$(N)-$(VERSION).com.css
+	echo "" >> pkg/$(N)-$(VERSION).com.css
+	echo "/* from commit $(SHA) on $(NOW) */" >> pkg/$(N)-$(VERSION).com.css
+	cp pkg/$(N)-$(VERSION).com.css pkg/$(N)-$(VERSION)-$(SHA).com.css
 	#
 	@echo
 	ls -al pkg/$(N)-$(VERSION)*
