@@ -11,7 +11,23 @@ describe 'ComSomolEyeliner' do
 
   it 'highlights' do
 
-    b = make_browser
+    t = %{
+Team Tigers
+  12345 Toto Manju
+  34521 Ruflacon Meremy
+
+Team Bears
+  12452 Sea Teremony
+  34421 Humpfcol Schulz
+    }
+
+    expect(js(%{
+      var eyeliner = new ComSomolEyeliner();
+      //eyeliner.add();
+      return eyeliner.highlightText(#{json(t)});
+    })).to eq([
+      "xyz"
+    ])
   end
 end
 

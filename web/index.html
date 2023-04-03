@@ -40,16 +40,18 @@ Team Bear
   indented 0 > xyz
   indented 1
 Team Tiger
-  indented 2
+  indented 2 2.5
   indented 3
         `.trim();
 
       eyeliner = new ComSomolEyeliner();
         //
       eyeliner.add(/^team /i, function(s, m) {
-        return '<span class="csel-label">' + s + '</span>'; });
-      eyeliner.add(/(\d+)/, function(s, m) {
-        return [ '<span class="csel-string">' + m[1] + '</span>' ]; });
+        //return '<span class="csel-label">' + s + '</span>'; });
+        return { target: 'line', class: 'label' }; });
+      eyeliner.add(/([\d.]+)/, 'all', function(s, m) {
+        //return [ '<span class="csel-string">' + m[1] + '</span>' ]; });
+        return { target: 'match', class: '.csel-string' }; });
       //eyeliner.add(/&gt; (.+)/, function(s, m) {
       //  return [ 'XX ]' + m[1] + '[' ]; });
         //

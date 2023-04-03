@@ -5,44 +5,35 @@
 # Mon Apr  3 11:08:40 JST 2023
 #
 
-require 'pp'
-require 'yaml'
-require 'io/console'
 require 'ferrum'
 
 
 module Helpers
 
-  def make_browser
+  def json(x)
 
-    sources =
-      %w[ src/comsomol_eyeliner.js spec/helpers.js ]
-        .collect { |path| File.read(path) }
-        .join(';')
-
-    browser = Ferrum::Browser.new(js_errors: true)
-    browser.evaluate("JSON.stringify((function() { #{$sources}; })())")
-
-    class << browser
-      alias eval evaluate
-    end
-
-    browser
+    JSON.dump(x)
   end
 
-#  def js(s)
-#
-#    sources ||=
-#    $browser ||=
-#      begin
-#        Ferrum::Browser.new(js_errors: true)
-#      end
-#
-#    s = "JSON.stringify((function() { #{$sources}; #{s}; })())"
-#    j = $browser.evaluate(s)
-#
-#    JSON.parse(j)
-#  end
+  def js(s)
+
+    $sources ||=
+      begin
+        %w[
+          web/js/h-1.2.0.min.js
+          src/comsomol_eyeliner.js
+          spec/helpers.js
+        ]
+          .collect { |path| File.read(path) }
+          .join(';')
+      end
+    $browser ||=
+      begin
+        Ferrum::Browser.new(js_errors: true)
+      end
+
+    $browser.evaluate("(function() { #{sources}; #{s}; })()")
+  end
 end
 RSpec.configure { |c| c.include(Helpers) }
 

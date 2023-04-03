@@ -48,39 +48,39 @@ class ComSomolEyeliner {
 
   add(regex_or_match_function, /* opts,*/ function_or_classname) {
 
-    var opts;
-
-    var a1 = arguments[1];
-    var t1 = (typeof a1);
+    var as = Array.from(arguments);
       //
-    if (t1 === 'function' || t1 === 'string' || Array.isArray(a1)) {
-      opts = {};
-    }
-    else {
-      opts = arguments[1];
-      function_or_classname = arguments[2];
-    }
+    regex_or_match_function = as.shift();
+    function_or_classname = as.pop();
+      //
+    var opts = {}; as.forEach(function(a) {
+      if (typeof a === 'string') { opts[a] = true; }
+      else if (typeof a === 'object') { Object.assign(opts, a); } });
 
     this.#rules.push([ regex_or_match_function, opts, function_or_classname ]);
   }
 
-  highlight(elt) {
+  highlightText(s) {
 
     var t = this;
-    var rules = this.#rules;
 
     var r = [];
     var ctx = {};
 
-    elt.innerHTML.split('\n').forEach(function(l, i) {
-      rules.forEach(function([ regex, opts, fun_or_classname ]) {
+    s.split('\n').forEach(function(l, i) {
+      t.#rules.forEach(function([ regex, opts, fun_or_classname ]) {
         var m = t.#doMatch(l, regex, opts);
         if (m) l = t.#doApply(fun_or_classname, l, i, ctx, m);
       });
       r.push(l);
     });
 
-    elt.innerHTML = r.join('<br>');
+    return r;
+  }
+
+  highlight(elt) {
+
+    elt.innerHTML = this.highlightText(elt.innerHTML).join('<br>');
   }
 } // end class ComSomolEyeliner
 
