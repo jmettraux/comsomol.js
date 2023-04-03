@@ -136,5 +136,55 @@ Team Bears
 
     }.strip)
   end
+
+  it 'highlights parts of lines (5)' do
+
+    expect(js(%{
+
+      var eyeliner = new ComSomolEyeliner();
+      eyeliner
+        .add(/\\d{2}/, function(s) {
+          return { target: 'match', class: 'num2' }; })
+        .add(/\\d{3}/, function(s) {
+          return { target: 'match', class: 'num3' }; });
+      return eyeliner.highlightText(#{@text});
+
+    }).join("\n")).to eq(%{
+
+Team Tigers
+  <span class="csel-num2">12</span><span class="csel-num2">34</span>5 Toto Manju
+  <span class="csel-num2">34</span><span class="csel-num2">52</span>1 Ruflacon Meremy
+
+Team Bears
+  <span class="csel-num2">12</span><span class="csel-num2">45</span>2 Sea Teremony
+  <span class="csel-num2">34</span><span class="csel-num2">42</span>1 (leaver)
+
+    }.strip)
+  end
+
+  it 'highlights parts of lines (6)' do
+
+    expect(js(%{
+
+      var eyeliner = new ComSomolEyeliner();
+      eyeliner
+        .add(/\\d{2}/, 'once', function(s) {
+          return { target: 'match', class: 'num2' }; })
+        .add(/\\d{3}/, function(s) {
+          return { target: 'match', class: 'num3' }; });
+      return eyeliner.highlightText(#{@text});
+
+    }).join("\n")).to eq(%{
+
+Team Tigers
+  <span class="csel-num2">12</span><span class="csel-num3">345</span> Toto Manju
+  <span class="csel-num2">34</span><span class="csel-num3">521</span> Ruflacon Meremy
+
+Team Bears
+  <span class="csel-num2">12</span><span class="csel-num3">452</span> Sea Teremony
+  <span class="csel-num2">34</span><span class="csel-num3">421</span> (leaver)
+
+    }.strip)
+  end
 end
 

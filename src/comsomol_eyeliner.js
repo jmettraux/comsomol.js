@@ -116,12 +116,16 @@ class ComSomolEyeliner {
       if (typeof a === 'string') { opts[a] = true; }
       else if (typeof a === 'object') { Object.assign(opts, a); } });
 
-    //if (regex_or_match_function instanceof RegExp) {
-    if (this.#isUnanchoredRegex(regex_or_match_function)) {
+    if (
+      this.#isUnanchoredRegex(regex_or_match_function) &&
+      ( ! opts.once)
+    ) {
       regex_or_match_function = new RegExp(regex_or_match_function, 'g');
     }
 
     this.#rules.push([ regex_or_match_function, opts, function_or_classname ]);
+
+    return this;
   }
 
   highlightText(s) {
