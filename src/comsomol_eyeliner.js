@@ -11,20 +11,35 @@ class ComSomolEyeliner {
 
   #rules;
 
-  #remakeLine(line, i, match, r) {
+  #determineClassWrapper(r) {
 
     var c = r.class;
     if (c.slice(0, 1) === '.') c = c.slice(1);
 
-    var sta = `<span class="${c}">`;
-    var ned = '</span>';
+    return [ `<span class="${c}">`, '</span>' ];
+  }
+
+  #remakeLine(line, i, match, r) {
+
+    var [ sta, ned ] = this.#determineClassWrapper(r);
 
     return `${sta}${line}${ned}`;
+  }
+
+  #remakeMatch(line, i, match, r) {
+
+    var [ sta, ned ] = this.#determineClassWrapper(r);
+
+    var a = line.slice(0, match.index);
+    var c = line.slice(match.index + match[0].length);
+
+    return [ a, sta, match[0], ned, c ].join('');
   }
 
   #remake(line, i, match, r) {
 
     if (r.target === 'line') return this.#remakeLine(line, i, match, r);
+    if (r.target === 'match') return this.#remakeMatch(line, i, match, r);
     return r;
   }
 
@@ -37,13 +52,6 @@ class ComSomolEyeliner {
     if (typeof r === 'object') return this.#remake(line, i, match, r);
     //if (typeof r === 'string') return r;
     return r;
-
-//    if (Array.isArray(r)) {
-//      var a = line.slice(0, match.index);
-//      var c = line.slice(match.index + match[1].length);
-//      return [ a, r[0], c ].join('');
-//    }
-//    return r;
   }
 
   #doMatch(line, regex_or_function, opts) {
