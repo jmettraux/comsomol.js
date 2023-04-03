@@ -87,14 +87,6 @@ class ComSomolEyeliner {
     return m ? [ m ] : false;
   }
 
-  #isUnanchoredRegex(rex) {
-
-    if ( ! (rex instanceof RegExp)) return false;
-
-    var b = rex.toString().split('/')[1];
-    return b.substr(0, 1) !== '^' && b.substr(-1, 1) !== '$';
-  }
-
   //
   // public
 
@@ -116,13 +108,6 @@ class ComSomolEyeliner {
       if (typeof a === 'string') { opts[a] = true; }
       else if (typeof a === 'object') { Object.assign(opts, a); } });
 
-    if (
-      this.#isUnanchoredRegex(regex_or_match_function) &&
-      ( ! opts.once)
-    ) {
-      regex_or_match_function = new RegExp(regex_or_match_function, 'g');
-    }
-
     this.#rules.push([ regex_or_match_function, opts, function_or_classname ]);
 
     return this;
@@ -136,10 +121,13 @@ class ComSomolEyeliner {
     var ctx = {};
 
     s.split('\n').forEach(function(l, i) {
+
       t.#rules.forEach(function([ regex, opts, fun_or_classname ]) {
+
         var ms = t.#doMatch(l, regex, opts);
         if (ms) l = t.#doApply(fun_or_classname, l, i, ctx, ms);
       });
+
       r.push(l);
     });
 

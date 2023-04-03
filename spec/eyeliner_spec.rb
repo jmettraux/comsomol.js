@@ -96,7 +96,7 @@ Team <span class="csel-string">Bears</span>
     expect(js(%{
 
       var eyeliner = new ComSomolEyeliner();
-      eyeliner.add(/\\d{2}/, function(s) {
+      eyeliner.add(/\\d{2}/g, function(s) {
         return { target: 'match', class: '.csel-num' };
       });
       return eyeliner.highlightText(#{@text});
@@ -119,7 +119,7 @@ Team Bears
     expect(js(%{
 
       var eyeliner = new ComSomolEyeliner();
-      eyeliner.add(/(\\d{2})/, function(s) {
+      eyeliner.add(/(\\d{2})/g, function(s) {
         return { target: 'match', class: 'num' };
       });
       return eyeliner.highlightText(#{@text});
@@ -143,9 +143,9 @@ Team Bears
 
       var eyeliner = new ComSomolEyeliner();
       eyeliner
-        .add(/\\d{2}/, function(s) {
+        .add(/\\d{2}/g, function(s) {
           return { target: 'match', class: 'num2' }; })
-        .add(/\\d{3}/, function(s) {
+        .add(/\\d{3}/g, function(s) {
           return { target: 'match', class: 'num3' }; });
       return eyeliner.highlightText(#{@text});
 
@@ -168,9 +168,9 @@ Team Bears
 
       var eyeliner = new ComSomolEyeliner();
       eyeliner
-        .add(/\\d{2}/, 'once', function(s) {
+        .add(/\\d{2}/, function(s) {
           return { target: 'match', class: 'num2' }; })
-        .add(/\\d{3}/, function(s) {
+        .add(/\\d{3}/g, function(s) {
           return { target: 'match', class: 'num3' }; });
       return eyeliner.highlightText(#{@text});
 
