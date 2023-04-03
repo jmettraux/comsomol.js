@@ -1,13 +1,14 @@
 
 .vim*
+.bxsinfo.yaml
+.errors
+.rspec.out
+
+.bundle
 
 tmp/
 pkg/
 
 web/js/comsomol.js
 web/css/comsomol.css
-
-.bxsinfo.yaml
-.errors
-.rspec.out
 
