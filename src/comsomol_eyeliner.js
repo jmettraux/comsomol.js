@@ -19,37 +19,55 @@ class ComSomolEyeliner {
     return [ `<span class="${c}">`, '</span>' ];
   }
 
-  #remakeLine(line, i, match, r) {
+  #remakeLine(line, i, matches, r) {
 
     var [ sta, ned ] = this.#determineClassWrapper(r);
 
     return `${sta}${line}${ned}`;
   }
 
-  #remakeMatch(line, i, match, r) {
+  #remakeMatch(index, match) {
 
-    var [ sta, ned ] = this.#determineClassWrapper(r);
-
-    var a = line.slice(0, match.index);
-    var c = line.slice(match.index + match[0].length);
-
-    return [ a, sta, match[0], ned, c ].join('');
+    if (typeof match[1] === 'string') {
+      var i = match[0].indexOf(match[1]);
+      return [ match.input.substring(index, i), match[1] ];
+    }
+    return [ match.input.substring(index, match.index), match[0] ];
   }
 
-  #remake(line, i, match, r) {
+  #remakeMatches(line, i, matches, r) {
 
-    if (r.target === 'line') return this.#remakeLine(line, i, match, r);
-    if (r.target === 'match') return this.#remakeMatch(line, i, match, r);
+    var t = this;
+    var index = 0;
+      //
+    var a = matches.map(function(m) {
+      var x = t.#remakeMatch(index, m);
+      index = index + x[0].length + x[1].length;
+      return x; });
+
+    var [ sta, ned ] = t.#determineClassWrapper(r);
+
+    var ra = [];
+      a.forEach(function([ pre, match ]) { ra.push(pre, sta, match, ned); });
+      ra.push(line.slice(index)); // tail...
+
+    return ra.join('');
+  }
+
+  #remake(line, i, matches, r) {
+
+    if (r.target === 'line') return this.#remakeLine(line, i, matches, r);
+    if (r.target === 'match') return this.#remakeMatches(line, i, matches, r);
     return r;
   }
 
-  #doApply(foc, line, i, ctx, match) {
+  #doApply(foc, line, i, ctx, matches) {
 
     var r =
-      (typeof foc === 'function') ? foc(line, match, i, ctx) :
+      (typeof foc === 'function') ? foc(line, matches, i, ctx) :
       foc;
 
-    if (typeof r === 'object') return this.#remake(line, i, match, r);
+    if (typeof r === 'object') return this.#remake(line, i, matches, r);
     //if (typeof r === 'string') return r;
     return r;
   }
@@ -58,8 +76,22 @@ class ComSomolEyeliner {
 
     if (typeof regex_or_function === 'function')
       return regex_or_function(line, opts);
-    else
-      return line.match(regex_or_function);
+
+    if (regex_or_function.global) {
+      var ms = Array.from(line.matchAll(regex_or_function));
+      return ms.length > 0 ? ms : false;
+    }
+
+    var m = line.match(regex_or_function);
+    return m ? [ m ] : false;
+  }
+
+  #isUnanchoredRegex(rex) {
+
+    if ( ! (rex instanceof RegExp)) return false;
+
+    var b = rex.toString().split('/')[1];
+    return b.substr(0, 1) !== '^' && b.substr(-1, 1) !== '$';
   }
 
   //
@@ -83,6 +115,11 @@ class ComSomolEyeliner {
       if (typeof a === 'string') { opts[a] = true; }
       else if (typeof a === 'object') { Object.assign(opts, a); } });
 
+    //if (regex_or_match_function instanceof RegExp) {
+    if (this.#isUnanchoredRegex(regex_or_match_function)) {
+      regex_or_match_function = new RegExp(regex_or_match_function, 'g');
+    }
+
     this.#rules.push([ regex_or_match_function, opts, function_or_classname ]);
   }
 
@@ -95,8 +132,8 @@ class ComSomolEyeliner {
 
     s.split('\n').forEach(function(l, i) {
       t.#rules.forEach(function([ regex, opts, fun_or_classname ]) {
-        var m = t.#doMatch(l, regex, opts);
-        if (m) l = t.#doApply(fun_or_classname, l, i, ctx, m);
+        var ms = t.#doMatch(l, regex, opts);
+        if (ms) l = t.#doApply(fun_or_classname, l, i, ctx, ms);
       });
       r.push(l);
     });
