@@ -11,21 +11,39 @@ class ComSomolEyeliner {
 
   #rules;
 
+  #remakeLine(line, i, match, r) {
+
+    var c = r.class;
+    if (c.slice(0, 1) === '.') c = c.slice(1);
+
+    var sta = `<span class="${c}">`;
+    var ned = '</span>';
+
+    return `${sta}${line}${ned}`;
+  }
+
+  #remake(line, i, match, r) {
+
+    if (r.target === 'line') return this.#remakeLine(line, i, match, r);
+    return r;
+  }
+
   #doApply(foc, line, i, ctx, match) {
 
     var r =
       (typeof foc === 'function') ? foc(line, match, i, ctx) :
       foc;
 
-    if (Array.isArray(r)) {
-
-      var a = line.slice(0, match.index);
-      var c = line.slice(match.index + match[1].length);
-
-      return [ a, r[0], c ].join('');
-    }
-
+    if (typeof r === 'object') return this.#remake(line, i, match, r);
+    //if (typeof r === 'string') return r;
     return r;
+
+//    if (Array.isArray(r)) {
+//      var a = line.slice(0, match.index);
+//      var c = line.slice(match.index + match[1].length);
+//      return [ a, r[0], c ].join('');
+//    }
+//    return r;
   }
 
   #doMatch(line, regex_or_function, opts) {

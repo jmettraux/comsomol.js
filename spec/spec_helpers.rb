@@ -32,7 +32,7 @@ module Helpers
         Ferrum::Browser.new(js_errors: true)
       end
 
-    $browser.evaluate("(function() { #{sources}; #{s}; })()")
+    $browser.evaluate("(function() { #{$sources}; #{s}; })()")
   end
 end
 RSpec.configure { |c| c.include(Helpers) }
