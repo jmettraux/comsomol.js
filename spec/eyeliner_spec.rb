@@ -113,5 +113,28 @@ Team Bears
 
     }.strip)
   end
+
+  it 'highlights parts of lines (4)' do
+
+    expect(js(%{
+
+      var eyeliner = new ComSomolEyeliner();
+      eyeliner.add(/(\\d{2})/, function(s) {
+        return { target: 'match', class: 'num' };
+      });
+      return eyeliner.highlightText(#{@text});
+
+    }).join("\n")).to eq(%{
+
+Team Tigers
+  <span class="csel-num">12</span><span class="csel-num">34</span>5 Toto Manju
+  <span class="csel-num">34</span><span class="csel-num">52</span>1 Ruflacon Meremy
+
+Team Bears
+  <span class="csel-num">12</span><span class="csel-num">45</span>2 Sea Teremony
+  <span class="csel-num">34</span><span class="csel-num">42</span>1 (leaver)
+
+    }.strip)
+  end
 end
 

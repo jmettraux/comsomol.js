@@ -15,6 +15,7 @@ class ComSomolEyeliner {
 
     var c = r.class;
     if (c.slice(0, 1) === '.') c = c.slice(1);
+    else c = 'csel-' + c;
 
     return [ `<span class="${c}">`, '</span>' ];
   }
@@ -29,7 +30,7 @@ class ComSomolEyeliner {
   #remakeMatch(index, match) {
 
     if (typeof match[1] === 'string') {
-      var i = match[0].indexOf(match[1]);
+      var i = match.input.indexOf(match[1], index);
       return [ match.input.substring(index, i), match[1] ];
     }
     return [ match.input.substring(index, match.index), match[0] ];
