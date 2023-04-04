@@ -10,12 +10,13 @@ class ComSomolEyeliner {
   // private
 
   #rules;
+  #classPrefix;
 
   #determineClassWrapper(r) {
 
     var c = r.class;
     if (c.slice(0, 1) === '.') c = c.slice(1);
-    else c = 'csel-' + c;
+    else c = this.#classPrefix + '-' + c;
 
     return [ `<span class="${c}">`, '</span>' ];
   }
@@ -96,11 +97,16 @@ class ComSomolEyeliner {
   //
   // public
 
-  constructor() {
+  constructor(/* opts */) {
 
     //super();
 
+    var opts = Array.from(arguments)
+      .find(function(a) { return (typeof a === 'object'); }) ||
+      {};
+
     this.#rules = [];
+    this.#classPrefix = opts.classPrefix || 'csel';
   }
 
   add(regex_or_match_function, /* opts,*/ function_or_classname) {

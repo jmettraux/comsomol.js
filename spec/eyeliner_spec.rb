@@ -22,6 +22,32 @@ Team Bears
     }.strip)
   end
 
+  describe 'constructor' do
+
+    it 'accepts an option hash with a classPrefix entry' do
+
+      expect(js(%{
+
+        var eyeliner = new ComSomolEyeliner({ classPrefix: 'comcom' });
+        eyeliner.add(/^team\\s/i, function(s) {
+          return { target: 'line', class: 'label' };
+        });
+        return eyeliner.highlightText(#{@text});
+
+      }).join("\n")).to eq(%{
+
+<span class="comcom-label">Team Tigers</span>
+  12345 Toto Manju
+  34521 Ruflacon Meremy
+
+<span class="comcom-label">Team Bears</span>
+  12452 Sea Teremony
+  34421 (leaver)
+
+      }.strip)
+    end
+  end
+
   context 'with rules returning hashes' do
 
     it 'highlights whole lines' do
