@@ -62,14 +62,20 @@ class ComSomolEyeliner {
     return r;
   }
 
-  #doApply(foc, line, i, ctx, matches) {
+  #doApply(foc, line, i, ctx, matches, opts) {
 
     var r =
       (typeof foc === 'function') ? foc(line, matches, i, ctx) :
       foc;
 
-    if (typeof r === 'object') return this.#remake(line, i, matches, r);
-    //if (typeof r === 'string') return r;
+    if (typeof r === 'string') {
+      r = { class: r, target: opts.line ? 'line' : 'match' };
+    }
+
+    if (typeof r === 'object') {
+      return this.#remake(line, i, matches, r);
+    }
+
     return r;
   }
 
@@ -125,7 +131,7 @@ class ComSomolEyeliner {
       t.#rules.forEach(function([ regex, opts, fun_or_classname ]) {
 
         var ms = t.#doMatch(l, regex, opts);
-        if (ms) l = t.#doApply(fun_or_classname, l, i, ctx, ms);
+        if (ms) l = t.#doApply(fun_or_classname, l, i, ctx, ms, opts);
       });
 
       r.push(l);
