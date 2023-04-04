@@ -29,13 +29,16 @@
   /*
   white-space: nowrap; // no good  :-|
   */
+
+  vertical-align: top;
+  width: 100%;
+  height: 100%;
 }
 
 [is="comsomol-area"] * {
 
-  font-size: 15pt;
   font-family: monospace;
-  line-height: 2rem;
+  line-height: 1.14em;
 }
 
 [is="comsomol-area"] textarea {
