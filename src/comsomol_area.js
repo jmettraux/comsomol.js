@@ -63,6 +63,11 @@ class ComSomolArea extends HTMLDivElement {
     this.#onInput();
   }
 
+  set value(t) { this.text = t; }
+
+  get text() { return this.#textarea.value; }
+  get value() { return this.text; }
+
   set highlight(f) {
 
     this.#highlight = f;
