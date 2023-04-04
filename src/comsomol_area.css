@@ -5,17 +5,25 @@
 
 /* dark (default) */
 
+[is="comsomol-area"] {
+
+  display: inline-grid;
+  /*
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  */
+}
+
 [is="comsomol-area"] textarea, [is="comsomol-area"] pre {
 
-  margin: 1rem;
+  grid-column-start: 1;
+  grid-row-start: 1;
+  justify-self: stretch;
+  align-self: stretch;
+
+  margin: 0;
   padding: 1rem;
   border: 0;
-  width: calc(100% - 2rem);
-  height: 150px;
-
-  position: absolute;
-  top: 0;
-  left: 0;
 
   overflow: auto;
   /*
@@ -28,7 +36,6 @@
   font-size: 15pt;
   font-family: monospace;
   line-height: 2rem;
-  height: calc(150px + 2rem) !important; /* FIXME */
 }
 
 [is="comsomol-area"] textarea {
