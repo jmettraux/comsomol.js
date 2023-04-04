@@ -73,6 +73,11 @@ class ComSomolArea extends HTMLDivElement {
     this.#highlight = f;
   }
 
+  //addEventListener(/* type, listener, options */) {
+  //  return this.#textarea.addEventListener.apply(null, Array.from(arguments));
+  //}
+    // not necessary
+
   //on(event_s, callback) {
   //on(sel, event_s, callback) {
   //
